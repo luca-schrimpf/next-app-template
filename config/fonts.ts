@@ -1,11 +1,11 @@
-import { Fira_Code as FontMono, Inter as FontSans } from "next/font/google";
+import { Modak, Plus_Jakarta_Sans } from "next/font/google";
 
-export const fontSans = FontSans({
+export const jakartaFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-sans",
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
 });
 
-export const fontMono = FontMono({
+export const modakFont = Modak({
   subsets: ["latin"],
-  variable: "--font-mono",
+  weight: ["400"],
 });

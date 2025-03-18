@@ -1,3 +1,4 @@
+"use client";
 import {
   Navbar as HeroUINavbar,
   NavbarContent,
@@ -7,69 +8,66 @@ import {
   NavbarItem,
   NavbarMenuItem,
 } from "@heroui/navbar";
-import { Button } from "@heroui/button";
-import { Kbd } from "@heroui/kbd";
-import { Link } from "@heroui/link";
-import { Input } from "@heroui/input";
+import { Link as LinkHero } from "@heroui/link";
 import { link as linkStyles } from "@heroui/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 
 import { siteConfig } from "@/config/site";
-import { ThemeSwitch } from "@/components/theme-switch";
+import { CrownIcon, Logo, ManagerIcon } from "@/components/icons";
+import { Button } from "@heroui/button";
+import { useAuth } from "@/context/AuthContext";
 import {
-  TwitterIcon,
-  GithubIcon,
-  DiscordIcon,
-  HeartFilledIcon,
-  SearchIcon,
-  Logo,
-} from "@/components/icons";
+  addToast,
+  Avatar,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownSection,
+  DropdownTrigger,
+  Tooltip,
+} from "@heroui/react";
+
+import {
+  Cog8ToothIcon,
+  ArrowLeftStartOnRectangleIcon,
+} from "@heroicons/react/24/outline";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const Navbar = () => {
-  const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
-      }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
-          K
-        </Kbd>
-      }
-      labelPlacement="outside"
-      placeholder="Search..."
-      startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      }
-      type="search"
-    />
-  );
+  const { user, users } = useAuth();
+
+  const navigate = useRouter();
+
+  const currentUser = users.find((u) => u.id === user?.uid);
 
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky">
+    <HeroUINavbar maxWidth="xl" className="bg-[#1B1A17] py-3" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Logo />
-            <p className="font-bold text-inherit">ACME</p>
-          </NextLink>
+          <Link
+            className="flex justify-start items-center gap-1"
+            href="/dashboard"
+          >
+            <Logo className="h-8 w-auto mb-1 " />
+          </Link>
         </NavbarBrand>
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
-              <NextLink
+              <Link
                 className={clsx(
                   linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium",
+                  "data-[active=true]:text-primary data-[active=true]:font-medium"
                 )}
                 color="foreground"
                 href={item.href}
               >
                 {item.label}
-              </NextLink>
+              </Link>
             </NavbarItem>
           ))}
         </ul>
@@ -79,59 +77,142 @@ export const Navbar = () => {
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
       >
-        <NavbarItem className="hidden sm:flex gap-2">
-          <Link isExternal aria-label="Twitter" href={siteConfig.links.twitter}>
-            <TwitterIcon className="text-default-500" />
-          </Link>
-          <Link isExternal aria-label="Discord" href={siteConfig.links.discord}>
-            <DiscordIcon className="text-default-500" />
-          </Link>
-          <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-            <GithubIcon className="text-default-500" />
-          </Link>
+        {/* <NavbarItem className="hidden sm:flex gap-2">
           <ThemeSwitch />
-        </NavbarItem>
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
-        <NavbarItem className="hidden md:flex">
-          <Button
-            isExternal
-            as={Link}
-            className="text-sm font-normal text-default-600 bg-default-100"
-            href={siteConfig.links.sponsor}
-            startContent={<HeartFilledIcon className="text-danger" />}
-            variant="flat"
-          >
-            Sponsor
-          </Button>
+        </NavbarItem> */}
+
+        <NavbarItem className="hidden sm:flex gap-2">
+          {currentUser ? (
+            <div className="flex items-center gap-4">
+              <div className="text-right">
+                <h2 className={`font-bold text-primary leading-5`}>
+                  {currentUser.name}
+                </h2>
+                <p className=" leading-4">
+                  {currentUser.role === "member" && "Member"}
+                  {currentUser.role === "manager" && "Manager"}
+                  {currentUser.role === "admin" && "Admin"}
+                </p>
+              </div>
+
+              <Dropdown>
+                <DropdownTrigger>
+                  <div className="relative">
+                    <Avatar
+                      isBordered
+                      radius="sm"
+                      color="primary"
+                      className="cursor-pointer"
+                      src={currentUser.photoURL}
+                    />
+                  </div>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Profile Actions">
+                  <DropdownSection showDivider title="">
+                    <DropdownItem key="profile" className="h-14 ">
+                      <div className="flex items-center gap-4">
+                        <Avatar
+                          isBordered
+                          radius="sm"
+                          size="sm"
+                          color="primary"
+                          className="cursor-pointer"
+                          src={currentUser.photoURL}
+                        />
+                        <div>
+                          <p className="font-semibold">{currentUser.name}</p>
+                          <p className="font-semibold text-muted">
+                            {currentUser.email}
+                          </p>
+                        </div>
+                      </div>
+                    </DropdownItem>
+                  </DropdownSection>
+
+                  <DropdownItem
+                    startContent={<Cog8ToothIcon className="w-5 h-5" />}
+                    key="settings"
+                    href="/settings"
+                  >
+                    Meine Einstellungen
+                  </DropdownItem>
+                  {currentUser.role === "manager" ||
+                  currentUser.role === "admin" ? (
+                    <DropdownItem
+                      startContent={<ManagerIcon className="w-4 h-4" />}
+                      key="manager-dashboard"
+                      href="/manager-dashboard"
+                    >
+                      Manager Dashboard
+                    </DropdownItem>
+                  ) : null}
+                  {currentUser.role === "admin" ? (
+                    <DropdownItem
+                      startContent={<CrownIcon className="w-4 h-4" />}
+                      key="admin-dashboard"
+                      href="/admin-dashboard"
+                    >
+                      Admin Dashboard
+                    </DropdownItem>
+                  ) : null}
+
+                  <DropdownItem
+                    startContent={
+                      <ArrowLeftStartOnRectangleIcon className="w-5 h-5" />
+                    }
+                    key="logout"
+                    color="danger"
+                    className="text-danger"
+                    onPress={() => {
+                      signOut(auth)
+                        .then(() => {
+                          // Sign-out successful.
+                          addToast({
+                            title: "Erolgreich abgemeldet",
+                            description: "Sie wurden erfolgreich abgemeldet",
+                            color: "success",
+                          });
+
+                          navigate.replace("/auth");
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                          addToast({
+                            title: "Fehler!",
+                            description:
+                              "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
+                            color: "danger",
+                          });
+                        });
+                    }}
+                  >
+                    Abmelden
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          ) : (
+            <Link href="/auth">
+              <Button color="primary" variant="bordered">
+                Anmelden
+              </Button>
+            </Link>
+          )}
         </NavbarItem>
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
-        </Link>
-        <ThemeSwitch />
+        {/* <ThemeSwitch /> */}
         <NavbarMenuToggle />
       </NavbarContent>
 
       <NavbarMenu>
-        {searchInput}
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {siteConfig.navMenuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
-                }
-                href="#"
-                size="lg"
-              >
+              <LinkHero color={"foreground"} href={item.href} size="lg">
                 {item.label}
-              </Link>
+              </LinkHero>
             </NavbarMenuItem>
           ))}
         </div>
