@@ -34,21 +34,14 @@ export const createCourseWithTasks = async ({
       body: JSON.stringify({ prompt: coursePrompt }),
     });
 
-    const reader = courseResponse.body?.getReader();
-    const decoder = new TextDecoder();
-    let courseText = "";
-
-    if (reader) {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        courseText += decoder.decode(value, { stream: true });
-      }
-    }
-
+    const courseDataRaw = await courseResponse.json();
+    const courseText = courseDataRaw.response
+      .replace(/```json|```/g, "")
+      .trim(); // Entfernt Markdown
     let courseData;
+
     try {
-      courseData = JSON.parse(courseText.trim());
+      courseData = JSON.parse(courseText);
     } catch (error) {
       console.error("Fehler beim Parsen des Kurs-JSONs:", error, courseText);
       return null;
@@ -91,26 +84,20 @@ export const createCourseWithTasks = async ({
       body: JSON.stringify({ prompt: taskPrompt }),
     });
 
-    const taskReader = taskResponse.body?.getReader();
-    let taskText = "";
-
-    if (taskReader) {
-      while (true) {
-        const { done, value } = await taskReader.read();
-        if (done) break;
-        taskText += decoder.decode(value, { stream: true });
-      }
-    }
-
+    const taskDataRaw = await taskResponse.json();
+    const taskText = taskDataRaw.response.replace(/```json|```/g, "").trim(); // Entfernt Markdown
     let tasks;
+
     try {
-      tasks = JSON.parse(taskText.trim());
+      tasks = JSON.parse(taskText);
     } catch (error) {
       console.error("Fehler beim Parsen der Aufgaben:", error, taskText);
       return null;
     }
 
+    // Kombiniere Course + Tasks
     courseData.tasks = tasks;
+
     console.log(courseData);
     return courseData;
   } catch (error) {
