@@ -1,6 +1,5 @@
 import React from "react";
 import CourseCard from "../CourseCard";
-import { SAMPLE_COURSES } from "@/data/courses";
 import { useAuth } from "@/context/AuthContext";
 
 const CoursesListSection = ({
