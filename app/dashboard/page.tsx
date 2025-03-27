@@ -23,7 +23,7 @@ const page = () => {
 
   return (
     <>
-      <section className=" bg-[#1B1A17] p-8 rounded-lg flex flex-col md:flex-row text-center md:text-left items-center md:items-start gap-4">
+      <section className=" bg-card p-8 rounded-lg flex flex-col md:flex-row text-center md:text-left items-center md:items-start gap-4">
         <div className="relative">
           <Avatar
             size="lg"
@@ -42,16 +42,17 @@ const page = () => {
           <p className="text-muted md:text-lg text-base">
             Lass uns weiter an deinen Programmierfertigkeiten arbeiten
           </p>
-
-          <div className="mt-4">
-            <p className="font-semibold">Deine gesammelten Badges</p>
-            <div>
-              <MyBadgesList
-                courses={courses}
-                solvedCourses={currentUser.solvedCourses}
-              />
+          {currentUser.solvedCourses.length > 0 && (
+            <div className="mt-4">
+              <p className="font-semibold">Deine gesammelten Badges</p>
+              <div>
+                <MyBadgesList
+                  courses={courses}
+                  solvedCourses={currentUser.solvedCourses}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 

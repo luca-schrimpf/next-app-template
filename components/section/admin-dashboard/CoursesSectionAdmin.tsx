@@ -19,8 +19,6 @@ const CoursesSectionAdmin = () => {
 
   return (
     <section className="flex flex-col gap-10">
-      <Divider className=" " />
-
       <div>
         <h1 className={`md:text-4xl text-2xl font-bold`}>Kurse</h1>
         <p className="text-muted md:text-lg text-base mb-3 ">

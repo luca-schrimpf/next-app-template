@@ -125,9 +125,6 @@ const CreateCourseWithAI = () => {
   };
 
   const handleSave = async () => {
-    console.log(courseData);
-    console.log(tasksData);
-
     try {
       if (!courseData?.id) return;
       if (!tasksData) return;
@@ -251,35 +248,49 @@ const CreateCourseWithAI = () => {
                           Eigenes Thumbnail hochladen
                         </Button>
                       </div>
+                      <div>
+                        <p>Titel</p>
+                        <Input
+                          required
+                          type="text"
+                          placeholder="Titel hier eingeben..."
+                          defaultValue={courseData?.title}
+                          classNames={{
+                            inputWrapper: "bg-text hover:bg-text/80",
+                            mainWrapper: "bg-text text-white rounded-lg ",
+                          }}
+                          onChange={(e) =>
+                            setCourseData({
+                              ...courseData,
+                              title: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
 
-                      <Input
-                        required
-                        label="Titel"
-                        labelPlacement="outside"
-                        type="text"
-                        placeholder="Titel hier eingeben..."
-                        defaultValue={courseData?.title}
-                        onChange={(e) =>
-                          setCourseData({
-                            ...courseData,
-                            title: e.target.value,
-                          })
-                        }
-                      />
-                      <Textarea
-                        required
-                        label="Beschreibung"
-                        labelPlacement="outside"
-                        type="text"
-                        placeholder="Beschreibung hier eingeben..."
-                        defaultValue={courseData?.description}
-                        onChange={(e) =>
-                          setCourseData({
-                            ...courseData,
-                            description: e.target.value,
-                          })
-                        }
-                      />
+                      <div>
+                        <p>Beschreibung</p>
+                        <Textarea
+                          required
+                          type="text"
+                          classNames={{
+                            inputWrapper: "bg-text hover:bg-text/80",
+                            mainWrapper: "bg-text hover:bg-text/80",
+                            input: "bg-text hover:bg-text/80",
+                            base: "hover:bg-text rounded-lg",
+                            innerWrapper:
+                              "bg-text hover:bg-text/80 text-white rounded-lg ",
+                          }}
+                          placeholder="Beschreibung hier eingeben..."
+                          defaultValue={courseData?.description}
+                          onChange={(e) =>
+                            setCourseData({
+                              ...courseData,
+                              description: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
 
                       <div>
                         <p className="text-sm mb-3">Aufgaben</p>
@@ -287,139 +298,194 @@ const CreateCourseWithAI = () => {
                           {tasksData &&
                             tasksData.map((task, index) => (
                               <Tab key={index} title={`Aufgabe ${index + 1}`}>
-                                <div className="bg-black/25 mb-5 flex flex-col gap-4 p-4 rounded-lg">
-                                  <Input
-                                    required
-                                    label="Titel"
-                                    labelPlacement="outside"
-                                    type="text"
-                                    placeholder="Titel hier eingeben..."
-                                    defaultValue={task.title}
-                                    onChange={(e) =>
-                                      setTasksData([
-                                        ...tasksData.slice(0, index),
-                                        { ...task, title: e.target.value },
-                                        ...tasksData.slice(index + 1),
-                                      ])
-                                    }
-                                  />
-                                  <Textarea
-                                    required
-                                    label="Beschreibung"
-                                    labelPlacement="outside"
-                                    type="text"
-                                    placeholder="Beschreibung hier eingeben..."
-                                    defaultValue={task.description}
-                                    onChange={(e) =>
-                                      setTasksData([
-                                        ...tasksData.slice(0, index),
-                                        {
-                                          ...task,
-                                          description: e.target.value,
-                                        },
-                                        ...tasksData.slice(index + 1),
-                                      ])
-                                    }
-                                  />
-                                  <Textarea
-                                    required
-                                    label="Frage"
-                                    labelPlacement="outside"
-                                    type="text"
-                                    placeholder="Frage hier eingeben..."
-                                    defaultValue={task.question}
-                                    onChange={(e) =>
-                                      setTasksData([
-                                        ...tasksData.slice(0, index),
-                                        { ...task, question: e.target.value },
-                                        ...tasksData.slice(index + 1),
-                                      ])
-                                    }
-                                  />
+                                <div className="bg-muted/25 text-text mb-5 flex flex-col gap-4 p-4 rounded-lg">
+                                  <div>
+                                    <p>Titel</p>
+                                    <Input
+                                      required
+                                      classNames={{
+                                        inputWrapper:
+                                          "bg-text hover:bg-text/80",
+                                        mainWrapper:
+                                          "bg-text text-white rounded-lg ",
+                                      }}
+                                      type="text"
+                                      placeholder="Titel hier eingeben..."
+                                      defaultValue={task.title}
+                                      onChange={(e) =>
+                                        setTasksData([
+                                          ...tasksData.slice(0, index),
+                                          { ...task, title: e.target.value },
+                                          ...tasksData.slice(index + 1),
+                                        ])
+                                      }
+                                    />
+                                  </div>
 
-                                  <Select
-                                    label="Antwort Typ"
-                                    labelPlacement="outside"
-                                    fullWidth
-                                    defaultSelectedKeys={[task.answerType]}
-                                    onChange={(e) =>
-                                      setTasksData([
-                                        ...tasksData.slice(0, index),
-                                        {
-                                          ...task,
-                                          answerType: e.target.value as
-                                            | "text"
-                                            | "code"
-                                            | "multiple-choice"
-                                            | "single-choice",
-                                        },
-                                        ...tasksData.slice(index + 1),
-                                      ])
-                                    }
-                                  >
-                                    {awnserTypes.map((type) => (
-                                      <SelectItem key={type.key}>
-                                        {type.label}
-                                      </SelectItem>
-                                    ))}
-                                  </Select>
-
-                                  {task.answerType === "code" && (
+                                  <div>
+                                    <p>Beschreibung</p>
                                     <Textarea
                                       required
-                                      label="Code"
-                                      labelPlacement="outside"
+                                      classNames={{
+                                        inputWrapper:
+                                          "bg-text hover:bg-text/80",
+                                        mainWrapper: "bg-text hover:bg-text/80",
+                                        input: "bg-text hover:bg-text/80",
+                                        base: "hover:bg-text rounded-lg",
+                                        innerWrapper:
+                                          "bg-text hover:bg-text/80 text-white rounded-lg ",
+                                      }}
                                       type="text"
-                                      placeholder="Code hier eingeben..."
-                                      defaultValue={task.questionCode}
+                                      placeholder="Beschreibung hier eingeben..."
+                                      defaultValue={task.description}
                                       onChange={(e) =>
                                         setTasksData([
                                           ...tasksData.slice(0, index),
                                           {
                                             ...task,
-                                            questionCode: e.target.value,
+                                            description: e.target.value,
                                           },
                                           ...tasksData.slice(index + 1),
                                         ])
                                       }
                                     />
+                                  </div>
+
+                                  <div>
+                                    <p>Frage</p>
+                                    <Textarea
+                                      required
+                                      classNames={{
+                                        inputWrapper:
+                                          "bg-text hover:bg-text/80",
+                                        mainWrapper: "bg-text hover:bg-text/80",
+                                        input: "bg-text hover:bg-text/80",
+                                        base: "hover:bg-text rounded-lg",
+                                        innerWrapper:
+                                          "bg-text hover:bg-text/80 text-white rounded-lg ",
+                                      }}
+                                      type="text"
+                                      placeholder="Frage hier eingeben..."
+                                      defaultValue={task.question}
+                                      onChange={(e) =>
+                                        setTasksData([
+                                          ...tasksData.slice(0, index),
+                                          { ...task, question: e.target.value },
+                                          ...tasksData.slice(index + 1),
+                                        ])
+                                      }
+                                    />
+                                  </div>
+
+                                  <div>
+                                    <p>Antwort Typ</p>
+
+                                    <Select
+                                      fullWidth
+                                      classNames={{
+                                        mainWrapper:
+                                          "bg-text text-foreground rounded-lg",
+                                      }}
+                                      defaultSelectedKeys={[task.answerType]}
+                                      onChange={(e) =>
+                                        setTasksData([
+                                          ...tasksData.slice(0, index),
+                                          {
+                                            ...task,
+                                            answerType: e.target.value as
+                                              | "text"
+                                              | "code"
+                                              | "multiple-choice"
+                                              | "single-choice",
+                                          },
+                                          ...tasksData.slice(index + 1),
+                                        ])
+                                      }
+                                    >
+                                      {awnserTypes.map((type) => (
+                                        <SelectItem key={type.key}>
+                                          {type.label}
+                                        </SelectItem>
+                                      ))}
+                                    </Select>
+                                  </div>
+
+                                  {task.answerType === "code" && (
+                                    <div>
+                                      <p>Code</p>
+                                      <Textarea
+                                        required
+                                        classNames={{
+                                          inputWrapper:
+                                            "bg-text hover:bg-text/80",
+                                          mainWrapper:
+                                            "bg-text hover:bg-text/80",
+                                          input: "bg-text hover:bg-text/80",
+                                          base: "hover:bg-text rounded-lg",
+                                          innerWrapper:
+                                            "bg-text hover:bg-text/80 text-white rounded-lg ",
+                                        }}
+                                        type="text"
+                                        placeholder="Code hier eingeben..."
+                                        defaultValue={task.questionCode}
+                                        onChange={(e) =>
+                                          setTasksData([
+                                            ...tasksData.slice(0, index),
+                                            {
+                                              ...task,
+                                              questionCode: e.target.value,
+                                            },
+                                            ...tasksData.slice(index + 1),
+                                          ])
+                                        }
+                                      />
+                                    </div>
                                   )}
 
-                                  <div className="pl-6 flex flex-col gap-4">
-                                    Antworten
+                                  <div className="px-6 flex bg-foreground py-4 rounded-lg flex-col gap-4">
+                                    <p className="font-semibold">Antworten</p>
                                     <Divider />
                                     {task.answers.map((awnser, awnserIndex) => (
                                       <div
                                         key={awnserIndex}
-                                        className="flex items-end justify-between gap-2"
+                                        className="flex bg-muted/10 p-2 px-3 rounded-lg items-end justify-between gap-2"
                                       >
-                                        <Input
-                                          required
-                                          label={`Antwort ${awnserIndex + 1}`}
-                                          labelPlacement="outside"
-                                          type="text"
-                                          placeholder="Antwort hier eingeben..."
-                                          defaultValue={awnser}
-                                          onChange={(e) =>
-                                            setTasksData([
-                                              ...tasksData.slice(0, index),
-                                              {
-                                                ...task,
-                                                answers: [
-                                                  ...task.answers.slice(
-                                                    0,
-                                                    awnserIndex
-                                                  ),
-                                                  e.target.value,
-                                                  ...task.answers.slice(
-                                                    awnserIndex + 1
-                                                  ),
-                                                ],
-                                              },
-                                              ...tasksData.slice(index + 1),
-                                            ])
-                                          }
-                                        />
+                                        <div className="w-full">
+                                          <p className="mb-1">
+                                            Antwort {awnserIndex + 1}
+                                          </p>
+                                          <Input
+                                            required
+                                            type="text"
+                                            placeholder="Antwort hier eingeben..."
+                                            defaultValue={awnser}
+                                            classNames={{
+                                              inputWrapper:
+                                                "bg-text hover:bg-text/80",
+                                              mainWrapper:
+                                                "bg-text text-white rounded-lg ",
+                                            }}
+                                            onChange={(e) =>
+                                              setTasksData([
+                                                ...tasksData.slice(0, index),
+                                                {
+                                                  ...task,
+                                                  answers: [
+                                                    ...task.answers.slice(
+                                                      0,
+                                                      awnserIndex
+                                                    ),
+                                                    e.target.value,
+                                                    ...task.answers.slice(
+                                                      awnserIndex + 1
+                                                    ),
+                                                  ],
+                                                },
+                                                ...tasksData.slice(index + 1),
+                                              ])
+                                            }
+                                          />
+                                        </div>
 
                                         <Button
                                           isIconOnly
@@ -472,7 +538,10 @@ const CreateCourseWithAI = () => {
                                     task.answerType === "multiple-choice" ||
                                     task.answerType === "code" ? (
                                       <>
-                                        Falsche Antworten
+                                        <p className="font-semibold">
+                                          Falsche Antworten
+                                        </p>
+
                                         <Divider />
                                         {task.wrongAnswers &&
                                           task.wrongAnswers.map(
@@ -481,44 +550,55 @@ const CreateCourseWithAI = () => {
                                                 key={wrongAnswerIndex}
                                                 className="flex items-end justify-between gap-2"
                                               >
-                                                <Input
-                                                  required
-                                                  label={`Antwort ${wrongAnswerIndex + 1}`}
-                                                  labelPlacement="outside"
-                                                  type="text"
-                                                  placeholder="Antwort hier eingeben..."
-                                                  defaultValue={wrongAnswer}
-                                                  onChange={(e) =>
-                                                    setTasksData([
-                                                      ...tasksData.slice(
-                                                        0,
-                                                        index
-                                                      ),
-                                                      {
-                                                        ...task,
-                                                        wrongAnswers: [
-                                                          ...(
-                                                            task.wrongAnswers ||
-                                                            []
-                                                          ).slice(
-                                                            0,
-                                                            wrongAnswerIndex
-                                                          ),
-                                                          e.target.value,
-                                                          ...(
-                                                            task.wrongAnswers ||
-                                                            []
-                                                          ).slice(
-                                                            wrongAnswerIndex + 1
-                                                          ),
-                                                        ],
-                                                      },
-                                                      ...tasksData.slice(
-                                                        index + 1
-                                                      ),
-                                                    ])
-                                                  }
-                                                />
+                                                <div className="w-full">
+                                                  <p className="mb-1">
+                                                    Antwort{" "}
+                                                    {wrongAnswerIndex + 1}
+                                                  </p>
+                                                  <Input
+                                                    required
+                                                    type="text"
+                                                    classNames={{
+                                                      inputWrapper:
+                                                        "bg-text hover:bg-text/80",
+                                                      mainWrapper:
+                                                        "bg-text text-white rounded-lg ",
+                                                    }}
+                                                    placeholder="Antwort hier eingeben..."
+                                                    defaultValue={wrongAnswer}
+                                                    onChange={(e) =>
+                                                      setTasksData([
+                                                        ...tasksData.slice(
+                                                          0,
+                                                          index
+                                                        ),
+                                                        {
+                                                          ...task,
+                                                          wrongAnswers: [
+                                                            ...(
+                                                              task.wrongAnswers ||
+                                                              []
+                                                            ).slice(
+                                                              0,
+                                                              wrongAnswerIndex
+                                                            ),
+                                                            e.target.value,
+                                                            ...(
+                                                              task.wrongAnswers ||
+                                                              []
+                                                            ).slice(
+                                                              wrongAnswerIndex +
+                                                                1
+                                                            ),
+                                                          ],
+                                                        },
+                                                        ...tasksData.slice(
+                                                          index + 1
+                                                        ),
+                                                      ])
+                                                    }
+                                                  />
+                                                </div>
 
                                                 <Button
                                                   isIconOnly
@@ -583,21 +663,28 @@ const CreateCourseWithAI = () => {
                                     ) : null}
                                   </div>
 
-                                  <Input
-                                    required
-                                    label="Hinweis"
-                                    labelPlacement="outside"
-                                    type="text"
-                                    placeholder="Hinweis hier eingeben..."
-                                    defaultValue={task.hint}
-                                    onChange={(e) =>
-                                      setTasksData([
-                                        ...tasksData.slice(0, index),
-                                        { ...task, hint: e.target.value },
-                                        ...tasksData.slice(index + 1),
-                                      ])
-                                    }
-                                  />
+                                  <div>
+                                    <p className="mb-1">Hinweis</p>
+                                    <Input
+                                      required
+                                      classNames={{
+                                        inputWrapper:
+                                          "bg-text hover:bg-text/80",
+                                        mainWrapper:
+                                          "bg-text text-white rounded-lg ",
+                                      }}
+                                      type="text"
+                                      placeholder="Hinweis hier eingeben..."
+                                      defaultValue={task.hint}
+                                      onChange={(e) =>
+                                        setTasksData([
+                                          ...tasksData.slice(0, index),
+                                          { ...task, hint: e.target.value },
+                                          ...tasksData.slice(index + 1),
+                                        ])
+                                      }
+                                    />
+                                  </div>
 
                                   <Button
                                     variant="faded"
@@ -630,9 +717,13 @@ const CreateCourseWithAI = () => {
                       </p>
                     </div>
                     <Divider />
+
+                    <p>Framework</p>
+
                     <Select
-                      label="Framework"
-                      labelPlacement="outside"
+                      classNames={{
+                        mainWrapper: "bg-text text-foreground rounded-lg",
+                      }}
                       placeholder="Framework auswählen..."
                       onChange={(e) => setFrameworkValue(e.target.value)}
                     >
@@ -649,14 +740,18 @@ const CreateCourseWithAI = () => {
                         );
                       })}
                     </Select>
+
+                    <p>Schwierigkeitsgrad</p>
                     <Select
-                      label="Schwierigkeitsgrad"
-                      labelPlacement="outside"
                       placeholder="Schwierigkeitsgrad auswählen..."
                       description="1-5, wobei 1 leicht ist und 5 am schwierigsten ist"
                       onChange={(e) =>
                         setDifficultyLevel(Number(e.target.value))
                       }
+                      classNames={{
+                        mainWrapper: "bg-text text-foreground rounded-lg",
+                        description: "text-muted pl-2",
+                      }}
                     >
                       {Array.from({ length: 5 }, (_, index) => index + 1).map(
                         (level) => {
@@ -668,12 +763,16 @@ const CreateCourseWithAI = () => {
                         }
                       )}
                     </Select>
+
+                    <p>Aufgaben Anzahl</p>
                     <Select
-                      label="Aufgaben Anzahl"
-                      labelPlacement="outside"
                       placeholder="Aufgaben Anzahl auswählen..."
                       description="Zwischen 1 und 10 Aufgaben können erstellt werden"
                       onChange={(e) => setCountOfTasks(Number(e.target.value))}
+                      classNames={{
+                        mainWrapper: "bg-text text-foreground rounded-lg",
+                        description: "text-muted pl-2",
+                      }}
                     >
                       {Array.from({ length: 10 }, (_, index) => index + 1).map(
                         (level) => {

@@ -49,13 +49,13 @@ const MyBadgesList = ({
   }, []);
 
   return (
-    <div className="flex items-center flex-row mt-2">
+    <div className="flex items-center gap-2 flex-row mt-2">
       {badges.map((value, index) => {
         return (
           <Chip
             key={index}
             startContent={<value.frameworkLogo />}
-            className="bg-white shadow-lg px-3 text-background font-semibold "
+            className="bg-background shadow-lg px-3 text-text font-semibold "
           >
             {value.frameworkName} -{" "}
             <span className="font-bold">Level {value.courseDifficulty}</span>

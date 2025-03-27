@@ -28,7 +28,7 @@ const page = () => {
   }
 
   return (
-    <div className="flex flex-col gap-3 bg-[#1B1A17] p-8 rounded-lg ">
+    <div className="flex flex-col gap-3 bg-card p-8 rounded-lg ">
       <div>
         <h1 className={`md:text-4xl text-2xl font-bold`}>Manager Dashboard</h1>
         <p className="text-lg text-muted">

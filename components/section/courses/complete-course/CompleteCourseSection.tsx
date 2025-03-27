@@ -286,7 +286,7 @@ const CompleteCourseSection = ({ courseID }: { courseID: string }) => {
         }))}
       />
 
-      <div className="flex flex-col gap-3 bg-[#1B1A17] p-8 rounded-lg my-5 mb-14 ">
+      <div className="flex flex-col gap-3 bg-card p-8 rounded-lg my-5 mb-14 ">
         <h1 className={`md:text-4xl text-2xl font-bold`}>
           {currentTask?.title}
         </h1>
@@ -301,7 +301,7 @@ const CompleteCourseSection = ({ courseID }: { courseID: string }) => {
           </div>
 
           {currentTask?.questionCode && currentTask.answerType === "code" && (
-            <div className="mt-5">
+            <div className="mt-5 text-muted">
               <CodeBlock
                 language="jsx"
                 filename="DummyComponent.jsx"
@@ -315,6 +315,10 @@ const CompleteCourseSection = ({ courseID }: { courseID: string }) => {
             {currentTask?.answerType === "text" && (
               <Input
                 label="Antwort"
+                classNames={{
+                  inputWrapper: "bg-text hover:bg-text/80",
+                  mainWrapper: "bg-text text-white rounded-lg ",
+                }}
                 labelPlacement="outside"
                 placeholder="Gebe hier deine Antwort ein..."
                 onChange={(e) => setAnswerInput(e.target.value)}

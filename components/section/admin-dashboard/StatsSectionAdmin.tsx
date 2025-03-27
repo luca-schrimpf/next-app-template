@@ -27,7 +27,6 @@ const StatsSectionAdmin = () => {
 
   return (
     <section>
-      <Divider className="mb-4" />
       <h1 className={`md:text-4xl text-2xl font-bold`}>Stats</h1>
       <p className="text-muted md:text-lg text-base mb-8">
         Alles wichtigen Daten auf einen Blick

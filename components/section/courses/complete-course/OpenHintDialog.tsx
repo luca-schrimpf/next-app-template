@@ -16,7 +16,7 @@ const OpenHintDialog = ({ hintText }: { hintText: string }) => {
   return (
     <>
       <Button
-        className="mt-4"
+        className="mt-4 text-muted"
         size="sm"
         variant="bordered"
         startContent={<QuestionMarkCircleIcon className="h-5 w-5 text-muted" />}

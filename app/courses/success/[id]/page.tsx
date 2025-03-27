@@ -54,12 +54,12 @@ const page = () => {
           </p>
         </div>
 
-        <div className="flex items-center flex-col justify-center gap-2 bg-[#1B1A17] p-4 rounded-lg shadow-lg">
+        <div className="flex items-center flex-col justify-center gap-2 bg-card p-4 rounded-lg shadow-lg">
           <p className="text-lg font-semibold">Neues Badge erhalten!</p>
           {framework && (
             <Chip
               startContent={<framework.logo />}
-              className="bg-white shadow-lg px-3 text-background font-semibold"
+              className="bg-background shadow-lg px-3 text-muted font-semibold"
             >
               {framework.name} -{" "}
               <span className="font-bold">Level {course.difficulty}</span>
@@ -68,7 +68,10 @@ const page = () => {
         </div>
 
         <ButtonGroup>
-          <Button variant="solid" onPress={() => navigate.push("/dashboard")}>
+          <Button
+            className="bg-muted text-foreground"
+            onPress={() => navigate.push("/dashboard")}
+          >
             Zum Dashboard
           </Button>
           <Button

@@ -54,7 +54,7 @@ const CourseCard = ({
         {framework?.logo && (
           <Chip
             startContent={<framework.logo />}
-            className="bg-white shadow-lg px-3 text-background font-semibold bottom-16 left-2 absolute"
+            className="bg-card shadow-lg px-3 text-text font-semibold bottom-16 left-2 absolute"
           >
             {framework.name} -{" "}
             <span className="font-bold">Level {course.difficulty}</span>

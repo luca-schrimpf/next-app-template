@@ -54,7 +54,7 @@ export const CodeBlock = ({
     : highlightLines;
 
   return (
-    <div className="relative w-full rounded-lg bg-primary/10 p-4 font-mono text-sm">
+    <div className="relative w-full rounded-lg bg-text p-4 font-mono text-sm">
       <div className="flex flex-col gap-2">
         {tabsExist && (
           <div className="flex  overflow-x-auto">
@@ -99,7 +99,7 @@ export const CodeBlock = ({
         lineProps={(lineNumber) => ({
           style: {
             backgroundColor: activeHighlightLines.includes(lineNumber)
-              ? "rgba(255,255,255,0.1)"
+              ? "rgba(255,255,255,0.5)"
               : "transparent",
             display: "block",
             width: "100%",

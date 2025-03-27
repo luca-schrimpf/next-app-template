@@ -26,9 +26,7 @@ const CoursesListSection = ({
   );
 
   return (
-    <section
-      className={` ${inCardStyle && " my-12 bg-[#1B1A17] p-8 rounded-lg"}`}
-    >
+    <section className={` ${inCardStyle && " my-12 bg-card p-8 rounded-lg"}`}>
       <h2 className="text-3xl font-semibold">{title}</h2>
       <p className="mb-4 text-muted">
         Hier sind einige Kurse, die du fortsetzen kannst:

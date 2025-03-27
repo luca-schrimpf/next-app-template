@@ -45,7 +45,11 @@ export const Navbar = () => {
   const currentUser = users.find((u) => u.id === user?.uid);
 
   return (
-    <HeroUINavbar maxWidth="xl" className="bg-[#1B1A17] py-3" position="sticky">
+    <HeroUINavbar
+      maxWidth="xl"
+      className="bg-foreground py-3"
+      position="sticky"
+    >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <Link
@@ -60,8 +64,7 @@ export const Navbar = () => {
             <NavbarItem key={item.href}>
               <Link
                 className={clsx(
-                  linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium"
+                  "data-[active=true]:text-primary text-muted data-[active=true]:font-medium"
                 )}
                 color="foreground"
                 href={item.href}
@@ -107,7 +110,7 @@ export const Navbar = () => {
                     />
                   </div>
                 </DropdownTrigger>
-                <DropdownMenu aria-label="Profile Actions">
+                <DropdownMenu className="" aria-label="Profile Actions">
                   <DropdownSection showDivider title="">
                     <DropdownItem key="profile" className="h-14 ">
                       <div className="flex items-center gap-4">
@@ -121,25 +124,18 @@ export const Navbar = () => {
                         />
                         <div>
                           <p className="font-semibold">{currentUser.name}</p>
-                          <p className="font-semibold text-muted">
-                            {currentUser.email}
-                          </p>
+                          <p className=" text-muted">{currentUser.email}</p>
                         </div>
                       </div>
                     </DropdownItem>
                   </DropdownSection>
 
-                  <DropdownItem
-                    startContent={<Cog8ToothIcon className="w-5 h-5" />}
-                    key="settings"
-                    href="/settings"
-                  >
+                  <DropdownItem key="settings" href="/settings">
                     Meine Einstellungen
                   </DropdownItem>
                   {currentUser.role === "manager" ||
                   currentUser.role === "admin" ? (
                     <DropdownItem
-                      startContent={<ManagerIcon className="w-4 h-4" />}
                       key="manager-dashboard"
                       href="/manager-dashboard"
                     >
@@ -148,7 +144,7 @@ export const Navbar = () => {
                   ) : null}
                   {currentUser.role === "admin" ? (
                     <DropdownItem
-                      startContent={<CrownIcon className="w-4 h-4" />}
+                      className="hover:bg-background"
                       key="admin-dashboard"
                       href="/admin-dashboard"
                     >
@@ -157,9 +153,6 @@ export const Navbar = () => {
                   ) : null}
 
                   <DropdownItem
-                    startContent={
-                      <ArrowLeftStartOnRectangleIcon className="w-5 h-5" />
-                    }
                     key="logout"
                     color="danger"
                     className="text-danger"

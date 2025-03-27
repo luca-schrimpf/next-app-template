@@ -58,7 +58,7 @@ const TrackingSolvedCourse = () => {
   }, []);
 
   return (
-    <section className="my-12 bg-[#1B1A17] p-8 rounded-lg">
+    <section className="my-12 bg-card p-8 rounded-lg">
       <h2 className="text-3xl font-semibold">Lernfortschritt</h2>
       <p className="mb-4 text-muted">
         Hier siehst du eine Übersicht über deinem Lernfortschritt und was noch
@@ -74,6 +74,9 @@ const TrackingSolvedCourse = () => {
                 <p className="text-lg font-semibold">{data.framework.name}</p>
               </div>
               <Progress
+                classNames={{
+                  track: "bg-muted/40",
+                }}
                 label={`${data.solvedCourses}/${data.totalCourses} ${data.framework.name} Kurse absolviert`}
                 value={data.progressValue}
               />

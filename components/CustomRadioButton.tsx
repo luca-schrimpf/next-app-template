@@ -9,7 +9,7 @@ const CustomRadioButton = (props: any) => {
       {...otherProps}
       classNames={{
         base: cn(
-          "inline-flex  m-0 bg-default/50 hover:bg-default/75 items-center ",
+          "inline-flex  m-0 bg-text hover:bg-text/85 items-center ",
           "flex-row max-w-full cursor-pointer rounded-lg gap-4 p-4 border-2 border-transparent",
           "data-[selected=true]:border-primary"
         ),
