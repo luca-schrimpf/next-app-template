@@ -28,6 +28,8 @@ const page = () => {
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        console.log("User Logged in", userCredential.user);
+
         addToast({
           title: "Anmeldung erfolgreich",
           description: "Sie werden in Kürze weitergeleitet",
@@ -119,6 +121,10 @@ const page = () => {
               aria-label="Tabs form"
               selectedKey={selected}
               size="md"
+              classNames={{
+                tab: " bg-text/25 text-text",
+                tabList: "bg-text/10",
+              }}
               onSelectionChange={(key) => setSelected(String(key))}
             >
               <Tab key="login" title="Anmelden">
@@ -126,6 +132,11 @@ const page = () => {
                   <Input
                     isRequired
                     value={email}
+                    classNames={{
+                      base: "bg-text rounded-xl",
+                      inputWrapper: "bg-text hover:bg-text/80",
+                      mainWrapper: "bg-text text-white rounded-lg ",
+                    }}
                     onChange={(e) => setEmail(e.target.value)}
                     label="Email"
                     placeholder="Gebe deine E-Mail-Adresse ein"
@@ -134,12 +145,18 @@ const page = () => {
                   <Input
                     isRequired
                     value={password}
+                    classNames={{
+                      base: "bg-text rounded-xl",
+
+                      inputWrapper: "bg-text hover:bg-text/80",
+                      mainWrapper: "bg-text text-white rounded-lg ",
+                    }}
                     onChange={(e) => setPassword(e.target.value)}
                     label="Password"
                     placeholder="Gebe dein Passwort ein"
                     type="password"
                   />
-                  <p className="text-center text-small">
+                  <p className="text-center text-text text-small">
                     Konto erstellen?{" "}
                     <Link
                       size="sm"
@@ -170,6 +187,11 @@ const page = () => {
                   <Input
                     isRequired
                     label="Name"
+                    classNames={{
+                      base: "bg-text rounded-xl",
+                      inputWrapper: "bg-text hover:bg-text/80",
+                      mainWrapper: "bg-text text-white rounded-lg ",
+                    }}
                     value={fullname}
                     onChange={(e) => setFullname(e.target.value)}
                     placeholder="Gebe deinen Vollständigen Namen ein"
@@ -178,6 +200,11 @@ const page = () => {
                   <Input
                     isRequired
                     value={email}
+                    classNames={{
+                      base: "bg-text rounded-xl",
+                      inputWrapper: "bg-text hover:bg-text/80",
+                      mainWrapper: "bg-text text-white rounded-lg ",
+                    }}
                     onChange={(e) => setEmail(e.target.value)}
                     label="Email"
                     placeholder="Gebe deine E-Mail-Adresse ein"
@@ -186,12 +213,17 @@ const page = () => {
                   <Input
                     isRequired
                     label="Password"
+                    classNames={{
+                      base: "bg-text rounded-xl",
+                      inputWrapper: "bg-text hover:bg-text/80",
+                      mainWrapper: "bg-text text-white rounded-lg ",
+                    }}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Gebe dein Passwort ein"
                     type="password"
                   />
-                  <p className="text-center text-small">
+                  <p className="text-center text-text text-small">
                     Bereits ein Konto?{" "}
                     <Link size="sm" onPress={() => setSelected("login")}>
                       Anmelden
